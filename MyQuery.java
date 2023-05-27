@@ -48,12 +48,30 @@ public class MyQuery {
 
     public void findCustomerOrder() throws SQLException
     {
+        String query = "SELECT CONCAT(FirstName,\" \" ,LastName) as Full_Name, COUNT(DISTINCT Order_num) as Num_of_Orders, SUM(Quantity) as Num_of_Books " +
+                "FROM CUSTOMERS NATURAL JOIN ORDERS NATURAL JOIN ORDERITEMS " +
+                "GROUP BY Customer_num " +
+                "ORDER BY SUM(Quantity) DESC;";
 
+        resultSet = statement.executeQuery(query);
     }
     
     public void printCustomerOrder() throws IOException, SQLException
     {
 		   System.out.println("******** Query 1 ********");
+           System.out.println("Full_Name        Num_of_Orders       Num_of_Books");
+
+
+           while (resultSet.next()) {
+               String name = resultSet.getString(1);
+               String orderCount = resultSet.getString(2);
+               String bookCount = resultSet.getString(3);
+               System.out.println(name + "\t\t  "+ orderCount + "\t\t\t\t\t " +bookCount);
+
+           }
+
+
+           System.out.println();
     }
 
     public void findBusyAuthor() throws SQLException

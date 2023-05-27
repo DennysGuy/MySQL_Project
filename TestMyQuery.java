@@ -66,10 +66,10 @@ public class TestMyQuery {
 
             //Create a connection to the database
             String serverName = "10.219.0.50:3306";
-            String mydatabase = "DBUserName_booksDB"; //change needed
+            String mydatabase = "s23mmatriciano_booksDB"; //change needed
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase; // a JDBC url
-            String username = "DBUserName"; //change needed
-            String password = "DBUserPassword"; //change needed
+            String username = "s23mmatriciano"; //change needed
+            String password = "NewHarbor23!"; //change needed
 
             connection = DriverManager.getConnection(url, username, password);
             return connection;
