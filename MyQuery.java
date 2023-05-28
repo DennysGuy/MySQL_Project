@@ -14,9 +14,10 @@ import java.lang.String;
 
 public class MyQuery {
 
-    private Connection conn = null;
+     private Connection conn = null;
 	 private Statement statement = null;
 	 private ResultSet resultSet = null;
+     private Scanner input = null;
     
     public MyQuery(Connection c)throws SQLException
     {
@@ -58,19 +59,9 @@ public class MyQuery {
     
     public void printCustomerOrder() throws IOException, SQLException
     {
+           String[] titleArray = {"Full Name", "Number of Orders", "Number of Books"};
 		   System.out.println("******** Query 1 ********");
-           System.out.println("Full_Name        Num_of_Orders       Num_of_Books");
-
-
-           while (resultSet.next()) {
-               String name = resultSet.getString(1);
-               String orderCount = resultSet.getString(2);
-               String bookCount = resultSet.getString(3);
-               System.out.println(name + "\t\t  "+ orderCount + "\t\t\t\t\t " +bookCount);
-
-           }
-
-
+           System.out.print(tableBuilder(titleArray,resultSet));
            System.out.println();
     }
 
@@ -84,20 +75,15 @@ public class MyQuery {
 
     public void printBusyAuthor() throws IOException, SQLException
     {
+        String[] titleArray = {"Author Name", "Number of Books"};
 	   	System.out.println("******** Query 2 ********");
-        System.out.println("Author_Name\t\tNum_of_Books");
-
-        while (resultSet.next()) {
-            String name = resultSet.getString(1);
-            String bookCount = resultSet.getString(2);
-            System.out.println(name +"\t\t\t" + bookCount);
-
-        }
-        System.out.println();
+        System.out.println(tableBuilder(titleArray,resultSet));
     }
 
     public void findBookProfit() throws SQLException
     {
+
+
         String query = "SELECT ISBN, Title, Category, SUM((retail-cost)*quantity) as Profit\n" +
                 "FROM BOOKS JOIN ORDERITEMS USING(ISBN) GROUP BY ISBN \n" +
                 "ORDER BY SUM((retail-cost)*quantity);";
@@ -107,16 +93,9 @@ public class MyQuery {
 
     public void printBookProfit() throws IOException, SQLException
     {
+           String[] titleArray = {"ISBN", "Title", "Category", "Profit"};
 		   System.out.println("******** Query 3 ********");
-           System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tCategory\t\tProfit");
-           while(resultSet.next()) {
-               String isbn = resultSet.getString(1);
-               String bookCount = resultSet.getString(2);
-               String catagory = resultSet.getString(3);
-               String profit   = resultSet.getString(4);
-
-               System.out.println(isbn + "\t" + bookCount + "\t\t\t" + catagory + "\t" + profit);
-           }
+           System.out.println(tableBuilder(titleArray,resultSet));
     }
 
     public void findHighestProfitPerCategory() throws SQLException
@@ -142,59 +121,107 @@ public class MyQuery {
 
     public void printMinMaxOrderDate() throws IOException, SQLException
     {
-		   System.out.println("******** Query 5 ********");
 
-           System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tName\t\t\t\t\tEarliest Order Date\t\tLatest Order Date\tTotal Quantity");
-           while(resultSet.next()) {
-            String isbn = resultSet.getString(1);
-            String title = resultSet.getString(2);
-            String name = resultSet.getString(3);
-            String eDate   = resultSet.getString(4);
-            String lDate = resultSet.getString(5);
-            String tQuantity = resultSet.getString(6);
+            String[] titleArray = {"ISBN", "Title", "Name", "Earliest Order Date",
+                    "Latest Order Date", "Total Quantity"};
+		    System.out.println("******** Query 5 ********");
 
-            //System.out.println(isbn + "\t" + title + "\t" + name + "\t\t" + eDate + "\t\t\t\t" + lDate + "\t\t\t\t\t" + tQuantity);
-            System.out.format("%1$-12s",isbn);System.out.format("%1$-32s",title);
-            System.out.format("%1$-26s",name);System.out.format("%1$-22s",eDate);
-            System.out.format("%1$-21s",lDate);System.out.format("%1$-2s",tQuantity);
-            System.out.println();
-
-            }
-
-
-
-
+            System.out.println(tableBuilder(titleArray, resultSet));
     }
 	
     public void updateDiscount() throws SQLException
     {
- 
+        resultSet.beforeFirst();
+        String query = "SELECT * FROM BookCopy";
+        resultSet = statement.executeQuery(query);
     }
 
     public void printUpdatedDiscount() throws IOException, SQLException
     {
+        String[] titleArray = {"ISBN", "TITLE", "PubDate", "PubID", "Cost", "Retail", "Discount", "Category"};
         System.out.println("******** Query 6 ********");
+        System.out.println(tableBuilder(titleArray,resultSet));
     }
 
     public void findHighestProfit() throws SQLException
 	{
-		  System.out.println("******** Query 7 ********");	
+		  System.out.println("******** Query 7 ********");
+          input = new Scanner(System.in);
+          String category;
+
+          System.out.println("Please enter the category name:");
+          category = input.nextLine().toUpperCase().trim();
+
+          String query = "SELECT ISBN, Title, Category, SUM((retail-cost)*quantity) as Profit\n" +
+                  "FROM BOOKS NATURAL JOIN ORDERITEMS  GROUP BY ISBN, Category\n" +
+                  "HAVING Category = '"+ category +"' AND Profit >= ALL(SELECT SUM((retail-cost)*quantity)\n" +
+                  "FROM BOOKS NATURAL JOIN ORDERITEMS GROUP BY ISBN, Category\n" +
+                  "HAVING Category = '"+ category +"');";
+
+          resultSet = statement.executeQuery(query);
+          while (resultSet.next()) {
+              System.out.println("Book " + resultSet.getString(2) + " (ISBN: " + resultSet.getString(1)
+              + ") has the highest profit $" + resultSet.getString(4) + " in " + resultSet.getString(3) + " category");
+          }
 	}
 
-    //helper method
-    public StringBuilder columnBuilder(String title, ResultSet resultSet, int padNumber, int index) throws IOException, SQLException{
-        StringBuilder column = new StringBuilder();
+    public int[] buildPadArray(ResultSet resultSet, String[] titleArray) throws SQLException {
+        int[] newPadArray = new int[titleArray.length];
+        int extraSpacing = 2;
+        //set the new pad array index to the size of the title
+        for (int i = 0; i < titleArray.length;i++) {
+            newPadArray[i] = titleArray[i].length() + extraSpacing;
+        }
 
-        column.append(title + "\n");
+        //check each entry in column against the title length and every consecutive entry to see if longer than previous entry
+        for (int i = 1, j = 0; i <= newPadArray.length; i++, j++) {
+            while (resultSet.next()) {
+                if (resultSet.getString(i) != null && resultSet.getString(i).length() > newPadArray[j] )
+                {
+                    newPadArray[j] = resultSet.getString(i).length() + extraSpacing;
+                }
+            }
+            resultSet.beforeFirst();
+        }
+        return newPadArray;
+    }
 
-        while (resultSet.next()) {
-            String element = resultSet.getString(index);
-            String.format("%1$-"+padNumber+"s",element);
-            column.append(element +"\n");
-            //System.out.format("%1$-"+padNumber+"s",element);
-            //System.out.println();
+    public String elementBuilder(String element, int padding)
+    {
+        return String.format("%1$-"+padding+"s",element);
+    }
+
+    public String titleBuilder(String[] titleArray, int[] paddingArray)
+    {
+        String newTitle = "";
+        for(int i = 0; i <= paddingArray.length; i++) {
+            if (i == paddingArray.length)
+                newTitle += "\n";
+            else
+                newTitle += elementBuilder(titleArray[i],paddingArray[i]);
 
         }
-        return column;
+        return newTitle;
+    }
+
+    public String tableBuilder(String[] titleArray, ResultSet resultSet) throws SQLException
+    {
+        String newTable = "";
+        int[] padArray = buildPadArray(resultSet, titleArray);
+        resultSet.beforeFirst();
+
+        newTable += titleBuilder(titleArray, padArray);
+        while(resultSet.next()) {
+            for (int i = 1, j = 0; i <= titleArray.length+1; i++,j++) {
+                if (j == titleArray.length) {
+                    j = 0;
+                    newTable += "\n";
+
+                } else {
+                    newTable += elementBuilder(resultSet.getString(i), padArray[j]);
+                }
+            }
+        }
+        return newTable;
     }
 }
