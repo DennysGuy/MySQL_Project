@@ -1,0 +1,90 @@
+"C:\Program Files\Java\jdk-18\bin\java.exe" "-javaagent:J:\Programs\IntelliJ IDEA 2022.2.2\lib\idea_rt.jar=51029:J:\Programs\IntelliJ IDEA 2022.2.2\bin" -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath "D:\SCHOOL\2023\Spring Quarter\CSCD327\MySQL_Project\out\production\MySQL_Project;D:\SCHOOL\2023\Spring Quarter\CSCD327\MySQL_Project\mysql-connector-java-8.0.19.jar" TestMyQuery
+******** Query 0 ********
+Book_Title
+DATABASE IMPLEMENTATION
+
+******** Query 1 ********
+Full Name       Number of Orders  Number of Books  
+TAMMY GIANA     2                 8                
+BONITA MORALES  2                 5                
+BECCA NELSON    1                 5                
+CINDY GIRARD    2                 3                
+JAKE LUCAS      2                 3                
+KENNETH FALAH   2                 3                
+LEILA SMITH     2                 2                
+THOMAS PIERSON  1                 2                
+REESE MCGOVERN  1                 2                
+STEVE SCHELL    1                 2                
+GREG MONTIASA   2                 2                
+KENNETH JONES   1                 1                
+JASMINE LEE     1                 1                
+JENNIFER SMITH  1                 1                
+
+******** Query 2 ********
+Author Name  Number of Books  
+SAM SMITH    3                
+
+******** Query 3 ********
+ISBN        Title                          Category     Profit  
+1915762492  HANDCRANKED COMPUTERS          COMPUTER     6.40    
+1059831198  BODYBUILD IN 10 MINUTES A DAY  FITNESS      12.20   
+8117949391  BIG BEAR AND LITTLE DOVE       CHILDREN     14.52   
+9247381001  HOW TO MANAGE THE MANAGER      BUSINESS     16.55   
+2147428890  SHORTEST POEMS                 LITERATURE   18.10   
+9959789321  E-BUSINESS THE EASY WAY        COMPUTER     33.20   
+0401140733  REVENGE OF MICKEY              FAMILY LIFE  39.00   
+3437212490  COOKING WITH MUSHROOMS         COOKING      59.60   
+3957136468  HOLY GRAIL OF ORACLE           COMPUTER     86.10   
+8843172113  DATABASE IMPLEMENTATION        COMPUTER     171.85  
+2491748320  PAINLESS CHILD-REARING         FAMILY LIFE  251.70  
+
+******** Query 4 ********
+ISBN        Title                          Category     Profit  
+1059831198  BODYBUILD IN 10 MINUTES A DAY  FITNESS      12.20   
+8117949391  BIG BEAR AND LITTLE DOVE       CHILDREN     14.52   
+9247381001  HOW TO MANAGE THE MANAGER      BUSINESS     16.55   
+2147428890  SHORTEST POEMS                 LITERATURE   18.10   
+3437212490  COOKING WITH MUSHROOMS         COOKING      59.60   
+8843172113  DATABASE IMPLEMENTATION        COMPUTER     171.85  
+2491748320  PAINLESS CHILD-REARING         FAMILY LIFE  251.70  
+
+******** Query 5 ********
+ISBN        Title                          Name                    Earliest Order Date  Latest Order Date  Total Quantity  
+3437212490  COOKING WITH MUSHROOMS         READING MATERIALS INC.  2009-03-31           2009-04-05         8               
+8843172113  DATABASE IMPLEMENTATION        AMERICAN PUBLISHING     2009-03-31           2009-04-05         7               
+2491748320  PAINLESS CHILD-REARING         REED-N-RITE             2009-03-31           2009-04-04         6               
+0401140733  REVENGE OF MICKEY              PRINTING IS US          2009-04-03           2009-04-05         5               
+8117949391  BIG BEAR AND LITTLE DOVE       REED-N-RITE             2009-04-02           2009-04-04         4               
+3957136468  HOLY GRAIL OF ORACLE           AMERICAN PUBLISHING     2009-04-02           2009-04-02         3               
+9959789321  E-BUSINESS THE EASY WAY        PUBLISH OUR WAY         2009-04-01           2009-04-02         2               
+1915762492  HANDCRANKED COMPUTERS          AMERICAN PUBLISHING     2009-04-03           2009-04-03         2               
+9247381001  HOW TO MANAGE THE MANAGER      PRINTING IS US          2009-03-31           2009-03-31         1               
+1059831198  BODYBUILD IN 10 MINUTES A DAY  READING MATERIALS INC.  2009-04-01           2009-04-01         1               
+2147428890  SHORTEST POEMS                 REED-N-RITE             2009-04-01           2009-04-01         1               
+4981341710  BUILDING A CAR WITH TOOTHPICKS PUBLISH OUR WAY         NA                   NA                 0               
+0132149871  HOW TO GET FASTER PIZZA        READING MATERIALS INC.  NA                   NA                 0               
+0299282519  THE WOK WAY TO COOK            READING MATERIALS INC.  NA                   NA                 0               
+
+******** Query 6 ********
+ISBN        TITLE                          PubDate     PubID  Cost  Retail  Discount  Category     
+0132149871  HOW TO GET FASTER PIZZA        2006-11-11  4      17.85 29.95   5.99      SELF HELP    
+0299282519  THE WOK WAY TO COOK            2004-09-11  4      19.00 28.75   5.75      COOKING      
+0401140733  REVENGE OF MICKEY              2005-12-14  1      14.20 22.00   null      FAMILY LIFE  
+1059831198  BODYBUILD IN 10 MINUTES A DAY  2005-01-21  4      18.75 30.95   6.19      FITNESS      
+1915762492  HANDCRANKED COMPUTERS          2005-01-21  3      21.80 25.00   null      COMPUTER     
+2147428890  SHORTEST POEMS                 2005-05-01  5      21.85 39.95   null      LITERATURE   
+2491748320  PAINLESS CHILD-REARING         2004-07-17  5      48.00 89.95   4.50      FAMILY LIFE  
+3437212490  COOKING WITH MUSHROOMS         2004-02-28  4      12.50 19.95   3.99      COOKING      
+3957136468  HOLY GRAIL OF ORACLE           2005-12-31  3      47.25 75.95   3.80      COMPUTER     
+4981341710  BUILDING A CAR WITH TOOTHPICKS 2006-03-18  2      37.80 59.95   3.00      CHILDREN     
+8117949391  BIG BEAR AND LITTLE DOVE       2005-11-08  5      5.32  8.95    null      CHILDREN     
+8843172113  DATABASE IMPLEMENTATION        2003-06-04  3      31.40 55.95   null      COMPUTER     
+9247381001  HOW TO MANAGE THE MANAGER      2003-05-09  1      15.40 31.95   null      BUSINESS     
+9959789321  E-BUSINESS THE EASY WAY        2006-03-01  2      37.90 54.50   null      COMPUTER     
+
+******** Query 7 ********
+Please enter the category name:
+COMPUTER
+Book DATABASE IMPLEMENTATION (ISBN: 8843172113) has the highest profit $171.85 in COMPUTER category
+
+Process finished with exit code 0

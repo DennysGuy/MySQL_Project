@@ -100,14 +100,20 @@ public class MyQuery {
 
     public void findHighestProfitPerCategory() throws SQLException
     {
+            String query = "SELECT ISBN, Title, Category, SUM((retail-cost)*quantity) as Profit\n" +
+                    "FROM BOOKS b1 NATURAL JOIN ORDERITEMS  GROUP BY ISBN, Category\n" +
+                    "HAVING Profit >= ALL (SELECT SUM((retail-cost)*quantity)\n" +
+                    "FROM BOOKS b2 NATURAL JOIN ORDERITEMS GROUP BY ISBN, Category\n" +
+                    "HAVING b1.Category = b2.Category) ORDER BY Profit;";
 
+            resultSet = statement.executeQuery(query);
     }
 
     public void printHighestProfitPerCategory() throws IOException, SQLException
     {
-		   System.out.println("******** Query 4 ********");
-
-
+		String[] titleArray = {"ISBN", "Title", "Category", "Profit"};
+        System.out.println("******** Query 4 ********");
+        System.out.println(tableBuilder(titleArray,resultSet));
     }
 
     public void findMinMaxOrderDate() throws SQLException
