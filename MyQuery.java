@@ -143,9 +143,9 @@ public class MyQuery {
     public void printMinMaxOrderDate() throws IOException, SQLException
     {
 		   System.out.println("******** Query 5 ********");
-        System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tName\t\t\t\t\tEarliest Order Date\t\tLatest Order Date\t\tTotal Quantity");
 
-        while(resultSet.next()) {
+           System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tName\t\t\t\t\tEarliest Order Date\t\tLatest Order Date\tTotal Quantity");
+           while(resultSet.next()) {
             String isbn = resultSet.getString(1);
             String title = resultSet.getString(2);
             String name = resultSet.getString(3);
@@ -153,11 +153,17 @@ public class MyQuery {
             String lDate = resultSet.getString(5);
             String tQuantity = resultSet.getString(6);
 
-
-
-            System.out.format("%1$-12s",isbn);System.out.format("%1$-31s",title);System.out.format("%1$-24s",name);System.out.println();
             //System.out.println(isbn + "\t" + title + "\t" + name + "\t\t" + eDate + "\t\t\t\t" + lDate + "\t\t\t\t\t" + tQuantity);
-        }
+            System.out.format("%1$-12s",isbn);System.out.format("%1$-32s",title);
+            System.out.format("%1$-26s",name);System.out.format("%1$-22s",eDate);
+            System.out.format("%1$-21s",lDate);System.out.format("%1$-2s",tQuantity);
+            System.out.println();
+
+            }
+
+
+
+
     }
 	
     public void updateDiscount() throws SQLException
@@ -175,4 +181,20 @@ public class MyQuery {
 		  System.out.println("******** Query 7 ********");	
 	}
 
+    //helper method
+    public StringBuilder columnBuilder(String title, ResultSet resultSet, int padNumber, int index) throws IOException, SQLException{
+        StringBuilder column = new StringBuilder();
+
+        column.append(title + "\n");
+
+        while (resultSet.next()) {
+            String element = resultSet.getString(index);
+            String.format("%1$-"+padNumber+"s",element);
+            column.append(element +"\n");
+            //System.out.format("%1$-"+padNumber+"s",element);
+            //System.out.println();
+
+        }
+        return column;
+    }
 }
