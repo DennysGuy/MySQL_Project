@@ -143,7 +143,7 @@ public class MyQuery {
     public void printMinMaxOrderDate() throws IOException, SQLException
     {
 		   System.out.println("******** Query 5 ********");
-        System.out.println("ISBN\t\t\tTitle\t\t\t\t\tName\t\t\t\tEarliest Order Date\t\tLatest Order Date\t\tTotal Quantity");
+        System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tName\t\t\t\t\tEarliest Order Date\t\tLatest Order Date\t\tTotal Quantity");
 
         while(resultSet.next()) {
             String isbn = resultSet.getString(1);
@@ -153,7 +153,10 @@ public class MyQuery {
             String lDate = resultSet.getString(5);
             String tQuantity = resultSet.getString(6);
 
-            System.out.println(isbn + "\t" + title + "\t" + name + "\t\t" + eDate + "\t\t\t\t" + lDate + "\t\t\t\t\t" + tQuantity);
+
+
+            System.out.format("%1$-12s",isbn);System.out.format("%1$-31s",title);System.out.format("%1$-24s",name);System.out.println();
+            //System.out.println(isbn + "\t" + title + "\t" + name + "\t\t" + eDate + "\t\t\t\t" + lDate + "\t\t\t\t\t" + tQuantity);
         }
     }
 	
