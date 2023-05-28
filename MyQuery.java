@@ -76,22 +76,47 @@ public class MyQuery {
 
     public void findBusyAuthor() throws SQLException
     {
-
+        String query = "SELECT CONCAT(Fname, \" \", Lname) as Author_Name, COUNT(AuthorID) as Num_of_Books FROM " +
+                "AUTHOR NATURAL JOIN BOOKAUTHOR GROUP BY AuthorID " +
+                "HAVING COUNT(AuthorID) >= ALL (SELECT COUNT(AuthorID) FROM BOOKAUTHOR GROUP BY AuthorID);";
+        resultSet = statement.executeQuery(query);
     }
 
     public void printBusyAuthor() throws IOException, SQLException
     {
 	   	System.out.println("******** Query 2 ********");
+        System.out.println("Author_Name\t\tNum_of_Books");
+
+        while (resultSet.next()) {
+            String name = resultSet.getString(1);
+            String bookCount = resultSet.getString(2);
+            System.out.println(name +"\t\t\t" + bookCount);
+
+        }
+        System.out.println();
     }
 
     public void findBookProfit() throws SQLException
     {
- 
+        String query = "SELECT ISBN, Title, Category, SUM((retail-cost)*quantity) as Profit\n" +
+                "FROM BOOKS JOIN ORDERITEMS USING(ISBN) GROUP BY ISBN \n" +
+                "ORDER BY SUM((retail-cost)*quantity);";
+
+        resultSet = statement.executeQuery(query);
     }
 
     public void printBookProfit() throws IOException, SQLException
     {
 		   System.out.println("******** Query 3 ********");
+           System.out.println("ISBN\t\tTitle\t\t\t\t\t\t\tCategory\t\tProfit");
+           while(resultSet.next()) {
+               String isbn = resultSet.getString(1);
+               String bookCount = resultSet.getString(2);
+               String catagory = resultSet.getString(3);
+               String profit   = resultSet.getString(4);
+
+               System.out.println(isbn + "\t" + bookCount + "\t\t\t" + catagory + "\t" + profit);
+           }
     }
 
     public void findHighestProfitPerCategory() throws SQLException
@@ -102,16 +127,34 @@ public class MyQuery {
     public void printHighestProfitPerCategory() throws IOException, SQLException
     {
 		   System.out.println("******** Query 4 ********");
+
+
     }
 
     public void findMinMaxOrderDate() throws SQLException
     {
-
+        String query = "SELECT ISBN, Title, Name, COALESCE(MIN(OrderDate), 'NA') as Earliest_Order_Date, COALESCE(MAX(OrderDate), 'NA') \n" +
+                "as Latest_Order_Date, COALESCE(SUM(Quantity),0) as Total_Quantity\n" +
+                "FROM ORDERS JOIN ORDERITEMS USING(Order_num) RIGHT JOIN BOOKS USING(ISBN)\n" +
+                "JOIN PUBLISHER USING(PubID) GROUP BY ISBN ORDER BY Total_Quantity desc;";
+        resultSet = statement.executeQuery(query);
     }
 
     public void printMinMaxOrderDate() throws IOException, SQLException
     {
 		   System.out.println("******** Query 5 ********");
+        System.out.println("ISBN\t\t\tTitle\t\t\t\t\tName\t\t\t\tEarliest Order Date\t\tLatest Order Date\t\tTotal Quantity");
+
+        while(resultSet.next()) {
+            String isbn = resultSet.getString(1);
+            String title = resultSet.getString(2);
+            String name = resultSet.getString(3);
+            String eDate   = resultSet.getString(4);
+            String lDate = resultSet.getString(5);
+            String tQuantity = resultSet.getString(6);
+
+            System.out.println(isbn + "\t" + title + "\t" + name + "\t\t" + eDate + "\t\t\t\t" + lDate + "\t\t\t\t\t" + tQuantity);
+        }
     }
 	
     public void updateDiscount() throws SQLException
